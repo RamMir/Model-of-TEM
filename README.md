@@ -1,4 +1,4 @@
-# Model-of-TEM
+# ABM_NetLogo
 # Introduction
 NetLogo (latest version 5.3.1) is an open source with lots of documentation and tutorials.
 Users can visit the http://ccl.northwestern.edu/netlogo/ at Northwestern and the http://groups.yahoo.com/group/netlogo-users/ on Yahoo.
