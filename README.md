@@ -32,7 +32,9 @@ It needs NetLogo 3D 5.3.1 installed in the computer. Also since this model has c
 These are the following steps to run the program.
 
 1. Install NetLogo 3D 5.3.1 and set up matlab extension following https://github.com/mbi2gs/netlogo-matlab-extension/wiki.
-2. Download TEM model and open it with the installed NetLogo
-3. In the interface tab, there is setup button. The setup parameters can be changed by changing sliders as well as changing the parameters in the code. Once the parameters are setup, the artery can be created by clicking the setup button. A folder named "ABMData" should be created on the same folder as the netlogo model beforehand to save the data.
+2. Place the file "get_WSS_netlogo.m" in the MATLAB path.
+2. Download TEM model and open it with the installed NetLogo. The MATLAB should automatically open and if not then the extension is not propery setup. In that case again follow the above link for proper installation of matlab extension.
+3. A folder named "ABMData" should be created on the same folder as the netlogo model beforehand to save the data.
+3. In the interface tab, there is setup button. The setup parameters can be changed by changing sliders as well as changing the parameters in the code. Once the parameters are setup, the artery can be created by clicking the setup button.
 4. Once the artery is setup, the plaque-growth button has to be clicked to run the model. Plaque will grow over time and once it start to grow inside the lumen, the hemodynamics needs to be updated. At that point NetLogo will be stopped automatically.
 
