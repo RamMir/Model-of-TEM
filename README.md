@@ -26,7 +26,7 @@ An older, less powerful system may not be able to use the 3D view or NetLogo 3D.
 Both versions work.  64-bit version can add additional heap space by changing the "-Xmx" JVM option. To run 64-bit NetLogo, 64-bit Windows is needed. 
 
 # TEM model requirement
-It needs NetLogo 3D 5.3.1 installed in the computer. Also since this model has connected with MATLAB and so MATLAB should be installed in the computer along with NetLogo to run this model.
+It needs NetLogo 3D 5.3.1 installed in the computer. Also since this model has connected with MATLAB, MATLAB should be installed in the computer along with NetLogo to run this model.
 
 # User guide
 These are the following steps to run the program.
