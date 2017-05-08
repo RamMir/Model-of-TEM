@@ -1195,20 +1195,46 @@ to get_adhesion_probability
 
  ; Compute probability for monocyte adhesion with cytokine
 
+             ifelse (TNF-alpha <= 1)
+   [set pTNFalpha_indv_neutro 0.0996 * TNF-alpha
+   ]
+   [ let TNFlog (log TNF-alpha 10)
+     set pTNFalpha_indv_neutro ( 0.80024 - 0.68069 * ( 1 - exp ( - 0.32533 * TNFlog ^ ( - 0.56225 ))))           ;Neutrophil adhesion Vs TNF (Bahra)
+    ]
+   set pTNFalpha_indv_neutro ( Tadhesion / TobsTNF_neutro ) * ( 1 / threshold_vicinity_mm ) * pTNFalpha_indv_neutro
+  ; show (word " individual probability of adhesion due to tnf:" pTNFalpha_indv_neutro)
+   set pTNFalpha_neutro pTNFalpha_neutro + pTNFalpha_indv_neutro
+
+   ifelse (IL-1 <= 0)
+   [set pIL1_indv_neutro 0
+   ]
+  [ set pIL1_indv_neutro ( 0.10423 + 0.18626 * ( 1 - exp ( - 28.2949 * IL-1 ^ 1.4569 ) ) )                       ; Neutrophil adhesion Vs IL1 (Breviario)
+    ]
+  set pIL1_indv_neutro ( Tadhesion / TobsIL1_neutro ) * ( 1 / threshold_vicinity_mm ) * pIL1_indv_neutro
+   ;show ( word "Individual  Adhesion probability vs. IL-1: " pIL1_indv_neutro )
+   set pIl1_neutro pIl1_neutro + pIL1_indv_neutro
+
+   ;show pTNFalpha_neutro
+   ;show pIl1_neutro
+
+ ; Compute probability for monocyte adhesion with cytokine
+
       ifelse (TNF-alpha <= 1)
    [set pTNFalpha_indv_mono 0.0996 * TNF-alpha
    ]
    [ let TNFlog (log TNF-alpha 10)
-     set pTNFalpha_indv_mono ( Tadhesion / TobsTNF_mono ) * ( 1 / threshold_vicinity_mm ) * ( 0.80024 - 0.68069 * ( 1 - exp ( - 0.32533 * TNFlog ^ ( - 0.56225 ))))                  ; Monocyte adhesion vs TNF
+     set pTNFalpha_indv_mono ( 0.80024 - 0.68069 * ( 1 - exp ( - 0.32533 * TNFlog ^ ( - 0.56225 ))))                  ; Monocyte adhesion vs TNF
     ]
+   set pTNFalpha_indv_mono ( Tadhesion / TobsTNF_mono ) * ( 1 / threshold_vicinity_mm ) * pTNFalpha_indv_mono
 ;   show (word " individual probability of adhesion due to tnf:" pTNFalpha_indv_mono)
    set pTNFalpha_mono pTNFalpha_mono + pTNFalpha_indv_mono
 
    ifelse (IL-1 <= 0)
    [set pIL1_indv_mono 0
    ]
-  [ set pIL1_indv_mono ( Tadhesion / TobsIL1_mono ) * ( 1 / threshold_vicinity_mm ) * ( 0.144 + 0.803 * ( 1 - exp ( - 0.58154 * IL-1 ^ 1.1875 ) ) )                                ; Monocyte adhesion vs IL-1 (Bevilacqua)
+  [ set pIL1_indv_mono ( 0.144 + 0.803 * ( 1 - exp ( - 0.58154 * IL-1 ^ 1.1875 ) ) )                                ; Monocyte adhesion vs IL-1 (Bevilacqua)
     ]
+  set pIL1_indv_mono ( Tadhesion / TobsIL1_mono ) * ( 1 / threshold_vicinity_mm ) * pIL1_indv_mono
 ;   show ( word "Individual Monocyte Adhesion probability vs. IL-1: " pIL1_indv_mono )
    set pIl1_mono pIl1_mono + pIL1_indv_mono
 
@@ -1221,16 +1247,18 @@ to get_adhesion_probability
    [set pTNFalpha_indv_lympho 0.0996 * TNF-alpha
    ]
    [ let TNFlog (log TNF-alpha 10)
-     set pTNFalpha_indv_lympho ( Tadhesion / TobsTNF_lympho ) * ( 1 / threshold_vicinity_mm ) *  ( 0.80024 - 0.68069 * ( 1 - exp ( - 0.32533 * TNFlog ^ ( - 0.56225 ))))                             ; Lymphocyte adhesion vs TNF
+     set pTNFalpha_indv_lympho ( 0.80024 - 0.68069 * ( 1 - exp ( - 0.32533 * TNFlog ^ ( - 0.56225 ))))                             ; Lymphocyte adhesion vs TNF
     ]
+   set pTNFalpha_indv_lympho ( Tadhesion / TobsTNF_lympho ) * ( 1 / threshold_vicinity_mm ) * pTNFalpha_indv_lympho
    ;show (word " individual probability of adhesion due to tnf:" pTNFalpha_indv_lympho)
    set pTNFalpha_lympho pTNFalpha_lympho + pTNFalpha_indv_lympho
 
    ifelse (IL-1 <= 0)
    [set pIL1_indv_lympho 0
    ]
-  [ set pIL1_indv_lympho ( Tadhesion / TobsIL1_lympho ) * ( 1 / threshold_vicinity_mm ) * ( 0.10423 + 0.18626 * ( 1 - exp ( - 28.2949 * IL-1 ^ 1.4569 ) ) )                                         ; Lymphocyte adhesion vs IL-1
+  [ set pIL1_indv_lympho ( 0.10423 + 0.18626 * ( 1 - exp ( - 28.2949 * IL-1 ^ 1.4569 ) ) )                                         ; Lymphocyte adhesion vs IL-1
     ]
+  set pIL1_indv_lympho ( Tadhesion / TobsIL1_lympho ) * ( 1 / threshold_vicinity_mm ) * pIL1_indv_lympho 
    ;show ( word "Individual  Adhesion probability vs. IL-1: " pIL1_indv_lympho )
    set pIl1_lympho pIl1_lympho + pIL1_indv_lympho
 
@@ -1248,28 +1276,8 @@ to get_adhesion_probability
    set pTNFalpha_lympho pTNFalpha_lympho / count_ECs
    set pIl1_lympho pIl1_lympho / count_ECs
 
-;   show (word " adhesion probability of neutrophil due to tnf:" pTNFalpha_neutro)
-;   show (word " adhesion probability neutrophil due to il1:" pIl1_neutro)
-;
-;   show (word " adhesion probability of monocyte due to tnf:" pTNFalpha_mono)
-;   show (word " adhesion probability monocyte due to il1:" pIl1_mono)
-;
-;   show (word " adhesion probability of lymphocyte due to tnf:" pTNFalpha_lympho)
-;   show (word " adhesion probability of lymphocyte due to il1:" pIl1_lympho)
-
-
-
-; Only need contribution from WSS to find out significant change of geometry
-;
-;   set pTNFalpha_neutro 0
-;   set pIl1_neutro 0
-;   set pTNFalpha_mono 0
-;   set pIl1_mono 0
-;   set pTNFalpha_lympho 0
-;   set pIl1_lympho 0
 
  ; Compute probability  with WSS
-
 ;  show (word "WSS " WSS_int ", x " pxcor ", y " pycor ", z " pzcor)
         set WSS_int abs WSS_int
         let WSS_dyncm 10 * WSS_int
@@ -1298,10 +1306,6 @@ to get_adhesion_probability
     [ set pWSS_lympho 0]
 ;  show ( word "lymphocyte Adhesion probability vs. WSS: " pWSS_lympho )
 
-
-;  let pWSS_neutro 0
-;  let pWSS_mono 0
-;  let pWSS_lympho 0
 
 ; Compute total probability of neutrophil
 
