@@ -1173,28 +1173,6 @@ to get_adhesion_probability
 
  ; Compute probability for neutrophil adhesion with cytokine
 
-          ifelse (TNF-alpha <= 1)
-   [set pTNFalpha_indv_neutro 0.0996 * TNF-alpha
-   ]
-   [ let TNFlog (log TNF-alpha 10)
-     set pTNFalpha_indv_neutro ( Tadhesion / TobsTNF_neutro ) * ( 1 / threshold_vicinity_mm ) * ( 0.80024 - 0.68069 * ( 1 - exp ( - 0.32533 * TNFlog ^ ( - 0.56225 ))))           ;Neutrophil adhesion Vs TNF (Bahra)
-    ]
-  ; show (word " individual probability of adhesion due to tnf:" pTNFalpha_indv_neutro)
-   set pTNFalpha_neutro pTNFalpha_neutro + pTNFalpha_indv_neutro
-
-   ifelse (IL-1 <= 0)
-   [set pIL1_indv_neutro 0
-   ]
-  [ set pIL1_indv_neutro ( Tadhesion / TobsIL1_neutro ) * ( 1 / threshold_vicinity_mm ) * ( 0.10423 + 0.18626 * ( 1 - exp ( - 28.2949 * IL-1 ^ 1.4569 ) ) )                       ; Neutrophil adhesion Vs IL1 (Breviario)
-    ]
-   ;show ( word "Individual  Adhesion probability vs. IL-1: " pIL1_indv_neutro )
-   set pIl1_neutro pIl1_neutro + pIL1_indv_neutro
-
-   ;show pTNFalpha_neutro
-   ;show pIl1_neutro
-
- ; Compute probability for monocyte adhesion with cytokine
-
              ifelse (TNF-alpha <= 1)
    [set pTNFalpha_indv_neutro 0.0996 * TNF-alpha
    ]
@@ -1275,7 +1253,6 @@ to get_adhesion_probability
 
    set pTNFalpha_lympho pTNFalpha_lympho / count_ECs
    set pIl1_lympho pIl1_lympho / count_ECs
-
 
  ; Compute probability  with WSS
 ;  show (word "WSS " WSS_int ", x " pxcor ", y " pycor ", z " pzcor)
